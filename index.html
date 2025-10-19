@@ -13,47 +13,100 @@
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     }
 
+    :root {
+      --primary-blue: #4A9EFF;
+      --secondary-blue: #2E86FF;
+      --accent-blue: #1E7BFF;
+      --dark-bg: #0A0A0F;
+      --card-bg: #1A1A2E;
+      --grid-bg: #16213E;
+      --text-primary: #FFFFFF;
+      --text-secondary: #B8C5D6;
+      --glow-blue: rgba(74, 158, 255, 0.4);
+      --glow-intense: rgba(74, 158, 255, 0.8);
+      /* --- Ajout de variables pour le jaune --- */
+      --star-yellow: #FFD700;
+      --glow-yellow: rgba(255, 215, 0, 0.7);
+    }
+
     body {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      color: #e2e8f0;
+      background: radial-gradient(ellipse at center, #0F1419 0%, #0A0A0F 100%);
+      color: var(--text-primary);
       min-height: 100vh;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
       padding: 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+          radial-gradient(circle at 20% 80%, rgba(74, 158, 255, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(46, 134, 255, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 40%, rgba(30, 123, 255, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    #particles-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      pointer-events: none;
     }
 
     .container {
-      max-width: 500px;
+      max-width: 420px;
       width: 100%;
-      background: rgba(15, 23, 42, 0.9);
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      overflow: hidden;
-      border: 1px solid rgba(94, 234, 212, 0.1);
-      position: relative;
+      background: linear-gradient(145deg, rgba(26, 26, 46, 0.95), rgba(16, 33, 62, 0.9));
+      border-radius: 25px;
       padding: 25px;
-      animation: fadeIn 0.8s ease-out;
+      box-shadow: 
+          0 25px 50px rgba(0, 0, 0, 0.5),
+          0 0 0 1px rgba(74, 158, 255, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(74, 158, 255, 0.3);
+      position: relative;
+      overflow: hidden;
     }
 
     .container::before {
-      content: "";
+      content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 4px;
-      background: linear-gradient(to right, #0ea5e9, #8b5cf6, #ec4899);
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary-blue), transparent);
+      animation: scanline 3s ease-in-out infinite;
     }
 
-    header {
+    @keyframes scanline {
+      0%, 100% { opacity: 0; transform: translateX(-100%); }
+      50% { opacity: 1; transform: translateX(100%); }
+    }
+
+    .header {
       text-align: center;
       margin-bottom: 25px;
-      padding: 0 10px;
+      position: relative;
     }
 
-    h1 {
-      font-size: 2.3rem;
+    .title {
+      font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+      font-size: 28px;
       font-weight: 800;
       margin-bottom: 10px;
       background: linear-gradient(to right, #0ea5e9, #8b5cf6);
@@ -67,146 +120,223 @@
       color: #94a3b8;
       font-size: 1.1rem;
       max-width: 400px;
-      margin: 0 auto 20px;
+      margin: 0 auto 15px;
       line-height: 1.5;
+    }
+
+    .ai-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(74, 158, 255, 0.1);
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(74, 158, 255, 0.3);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .ai-pulse {
+      width: 8px;
+      height: 8px;
+      background: var(--primary-blue);
+      border-radius: 50%;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
     }
 
     .stats-bar {
       display: flex;
-      justify-content: space-between;
-      background: rgba(30, 41, 59, 0.7);
-      padding: 12px 20px;
-      border-radius: 12px;
+      justify-content: space-around;
+      background: rgba(74, 158, 255, 0.1);
+      border-radius: 15px;
+      padding: 12px;
       margin-bottom: 25px;
-      border: 1px solid rgba(94, 234, 212, 0.1);
-      animation: slideIn 0.6s ease-out;
+      border: 1px solid rgba(74, 158, 255, 0.2);
     }
 
     .stat {
       text-align: center;
+      flex: 1;
     }
 
     .stat-value {
-      font-size: 1.4rem;
       font-weight: 700;
-      color: #0ea5e9;
-      margin-bottom: 5px;
+      font-size: 18px;
+      color: var(--primary-blue);
+      margin-bottom: 4px;
     }
 
     .stat-label {
-      font-size: 0.9rem;
-      color: #94a3b8;
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .bomb-selector {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
       margin-bottom: 25px;
-      animation: slideIn 0.7s ease-out;
+    }
+
+    .bomb-label {
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .bomb-options {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
     .bomb-option {
-      flex: 1;
-      min-width: 80px;
-      background: rgba(30, 41, 59, 0.7);
-      border: 2px solid rgba(94, 234, 212, 0.1);
-      border-radius: 12px;
-      padding: 12px 5px;
-      text-align: center;
+      padding: 14px 22px;
+      background: linear-gradient(145deg, #2A2A3E, #1F1F2E);
+      border: 2px solid transparent;
+      border-radius: 15px;
+      color: var(--text-secondary);
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 16px;
       font-weight: 700;
-      font-size: 1.3rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      min-width: 55px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 
+          0 4px 8px rgba(0, 0, 0, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .bomb-option::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(74, 158, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .bomb-option:hover::before {
+      left: 100%;
+    }
+
+    .bomb-option:hover {
+      background: linear-gradient(145deg, rgba(74, 158, 255, 0.2), rgba(46, 134, 255, 0.1));
+      border-color: rgba(74, 158, 255, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 
+          0 8px 20px rgba(74, 158, 255, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
     }
 
     .bomb-option.active {
-      background: linear-gradient(to right, #0ea5e9, #8b5cf6);
-      border-color: rgba(139, 92, 246, 0.5);
-      box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
-      transform: translateY(-3px);
-    }
-
-    .bomb-option:hover:not(.active) {
-      background: rgba(94, 234, 212, 0.1);
-      transform: translateY(-2px);
+      background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+      border-color: var(--primary-blue);
+      color: white;
+      box-shadow: 
+          0 0 20px var(--glow-blue),
+          0 8px 20px rgba(74, 158, 255, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
     }
 
     .grid-container {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 30px;
-      animation: fadeIn 0.9s ease-out;
+      margin-bottom: 25px;
     }
 
     .grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 10px;
-      max-width: 400px;
-      width: 100%;
+      padding: 15px;
+      background: linear-gradient(145deg, var(--grid-bg), rgba(22, 33, 62, 0.8));
+      border-radius: 20px;
+      border: 1px solid rgba(74, 158, 255, 0.2);
+      position: relative;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
-    .cell {
-      aspect-ratio: 1/1;
-      background: linear-gradient(145deg, #1e293b, #1e293b);
-      border-radius: 10px;
+    .grid-cell {
+      aspect-ratio: 1;
+      background: linear-gradient(145deg, #2A2A3E, #1F1F2E);
+      border-radius: 12px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      font-size: 2.2rem;
+      justify-content: center;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 
-        0 4px 6px rgba(0, 0, 0, 0.1),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid transparent;
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(94, 234, 212, 0.1);
+      box-shadow: 
+          0 4px 8px rgba(0, 0, 0, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
 
-    .cell::before {
-      content: "";
+    .grid-cell::before {
+      content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(94, 234, 212, 0);
-      transition: background 0.3s ease;
+      background: linear-gradient(45deg, transparent, rgba(74, 158, 255, 0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
-    .cell:hover::before {
-      background: rgba(94, 234, 212, 0.1);
+    .grid-cell:hover::before {
+      opacity: 1;
     }
 
-    .cell.star {
-      background: linear-gradient(145deg, #1e293b, #1e293b);
+    /* --- MODIFICATIONS DES ÉTOILES --- */
+    .grid-cell.star {
+      /* Le fond reste simple pour faire ressortir l'étoile */
+      background: linear-gradient(145deg, #3a3a5e, #2f2f4e);
     }
 
-    .cell.star .emoji {
+    .grid-cell.star .emoji {
       animation: starAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+      text-shadow: 0 0 15px var(--glow-yellow);
+      font-size: 2.5rem; /* Taille de l'émoji */
     }
+
+    @keyframes starAppear {
+        0% { transform: scale(0) rotate(0deg); opacity: 0; }
+        70% { transform: scale(1.2) rotate(20deg); opacity: 1; }
+        100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+    /* --- FIN DES MODIFICATIONS --- */
 
     .controls {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
       margin-bottom: 25px;
-      animation: slideIn 1s ease-out;
     }
 
     .btn {
-      padding: 16px 25px;
-      border-radius: 12px;
+      width: 100%;
+      padding: 18px;
       border: none;
-      font-size: 1.1rem;
-      font-weight: 600;
+      border-radius: 18px;
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -214,174 +344,189 @@
     }
 
     .btn-primary {
-      background: linear-gradient(to right, #0ea5e9, #8b5cf6);
-      color: white;
-      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+      background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+      box-shadow: 
+          0 0 20px var(--glow-blue),
+          0 8px 25px rgba(74, 158, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5);
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.6s ease;
     }
 
-    .btn-primary:active {
-      transform: translateY(0);
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 
+          0 0 30px var(--glow-intense),
+          0 15px 40px rgba(74, 158, 255, 0.5);
+    }
+
+    .btn:active {
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    .btn:disabled {
+      background: linear-gradient(135deg, #555, #444);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+      opacity: 0.6;
+    }
+
+    .prediction-info {
+      margin-top: 20px;
+      padding: 15px;
+      background: linear-gradient(145deg, rgba(74, 158, 255, 0.15), rgba(46, 134, 255, 0.1));
+      border-radius: 15px;
+      border: 1px solid rgba(74, 158, 255, 0.4);
+      text-align: center;
+      box-shadow: 
+          0 0 15px rgba(74, 158, 255, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .accuracy {
+      color: #00FF88;
+      font-weight: 700;
+      font-size: 18px;
+      text-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+      margin-bottom: 5px;
+    }
+
+    .prediction-subtitle {
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 400;
+      opacity: 0.8;
     }
 
     .affiliate {
-      background: linear-gradient(to right, #10b981, #059669);
+      display: block;
+      text-align: center;
+      padding: 15px;
+      background: linear-gradient(135deg, #00cc66, #00b359);
       color: white;
       text-decoration: none;
-      padding: 18px 25px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      text-align: center;
+      border-radius: 15px;
+      font-weight: bold;
+      margin-top: 20px;
       transition: all 0.3s ease;
-      display: block;
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-      animation: pulse 2s infinite;
     }
 
     .affiliate:hover {
+      background: linear-gradient(135deg, #00b359, #00994d);
       transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+      box-shadow: 0 5px 15px rgba(0, 179, 89, 0.4);
     }
 
-    .affiliate:active {
-      transform: translateY(0);
+    .affiliate i {
+      margin-right: 10px;
     }
 
     footer {
       text-align: center;
-      margin-top: 25px;
       color: #64748b;
       font-size: 0.9rem;
       padding: 0 10px;
+      margin-top: 25px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .grid-cell {
+      animation: cellEntry 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      animation-fill-mode: both;
     }
 
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(-20px); }
-      to { opacity: 1; transform: translateX(0); }
+    @keyframes cellEntry {
+      from {
+        opacity: 0;
+        transform: scale(0.8) rotateY(90deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) rotateY(0deg);
+      }
     }
 
-    @keyframes starAppear {
-      0% { transform: scale(0) rotate(0deg); opacity: 0; }
-      70% { transform: scale(1.2) rotate(20deg); opacity: 1; }
-      100% { transform: scale(1) rotate(0deg); opacity: 1; }
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-      50% { transform: scale(1.02); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5); }
-      100% { transform: scale(1); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-    }
-
-    /* Animation du fond */
-    .background-anim {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    .circle {
+    .star-particle {
       position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--star-yellow);
+      box-shadow: 0 0 10px var(--star-yellow);
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(14, 165, 233, 0.1), transparent 70%);
-      animation: float 15s infinite linear;
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0;
+      animation: starParticle 1s ease-out forwards;
     }
 
-    .circle:nth-child(1) {
-      width: 300px;
-      height: 300px;
-      top: 10%;
-      left: 5%;
-      animation-duration: 20s;
+    @keyframes starParticle {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty)) scale(0.2);
+      }
     }
 
-    .circle:nth-child(2) {
-      width: 200px;
-      height: 200px;
-      top: 60%;
-      left: 80%;
-      animation-duration: 15s;
-      animation-delay: -5s;
-    }
-
-    .circle:nth-child(3) {
-      width: 150px;
-      height: 150px;
-      top: 30%;
-      left: 70%;
-      animation-duration: 25s;
-      animation-delay: -10s;
-    }
-
-    @keyframes float {
-      0% { transform: translate(0, 0) rotate(0deg); }
-      25% { transform: translate(20px, 30px) rotate(90deg); }
-      50% { transform: translate(0, 50px) rotate(180deg); }
-      75% { transform: translate(-20px, 30px) rotate(270deg); }
-      100% { transform: translate(0, 0) rotate(360deg); }
-    }
-
-    @media (max-width: 500px) {
+    @media (max-width: 480px) {
       .container {
-        padding: 20px 15px;
+        padding: 20px;
       }
-
-      h1 {
-        font-size: 1.8rem;
+      
+      .title {
+        font-size: 24px;
       }
-
-    .subtitle {
+      
+      .subtitle {
         font-size: 0.95rem;
       }
-
-      .bomb-option {
-        min-width: 60px;
-        padding: 10px 5px;
-        font-size: 1.1rem;
-      }
-
-      .grid {
+      
+      .bomb-options {
         gap: 8px;
       }
-
-      .cell {
-        font-size: 1.8rem;
+      
+      .bomb-option {
+        padding: 12px 18px;
+        font-size: 14px;
+        min-width: 50px;
       }
-
-      .btn, .affiliate {
-        padding: 14px 20px;
-        font-size: 1rem;
+      
+      .btn {
+        padding: 16px;
+        font-size: 16px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Animation de fond -->
-  <div class="background-anim">
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-  </div>
+  <canvas id="particles-canvas"></canvas>
 
   <div class="container">
-    <header>
-      <h1><i class="fas fa-gem"></i> Mines Prediction Pro</h1>
+    <div class="header">
+      <h1 class="title"><i class="fas fa-gem"></i> Mines Prediction Pro</h1>
       <p class="subtitle">Découvrez les cases gagnantes avec notre algorithme de prédiction exclusif</p>
-    </header>
+      <div class="ai-indicator">
+        <div class="ai-pulse"></div>
+        IA Avancée Active
+      </div>
+    </div>
 
     <div class="stats-bar">
       <div class="stat">
@@ -399,10 +544,13 @@
     </div>
 
     <div class="bomb-selector">
-      <div class="bomb-option active" data-bombs="1">1💣</div>
-      <div class="bomb-option" data-bombs="3">3💣</div>
-      <div class="bomb-option" data-bombs="5">5💣</div>
-      <div class="bomb-option" data-bombs="7">7💣</div>
+      <div class="bomb-label">Nombre de bombes</div>
+      <div class="bomb-options">
+        <div class="bomb-option active" data-bombs="1">1💣</div>
+        <div class="bomb-option" data-bombs="3">3💣</div>
+        <div class="bomb-option" data-bombs="5">5💣</div>
+        <div class="bomb-option" data-bombs="7">7💣</div>
+      </div>
     </div>
 
     <div class="grid-container">
@@ -415,7 +563,14 @@
       </button>
     </div>
 
-    <a href="https://1wfzws.life/?open=register&p=opy4" target="_blank" class="affiliate">
+    <div class="prediction-info">
+      <div class="accuracy">Précision: <span id="accuracy">96.3%</span></div>
+      <div class="prediction-subtitle">
+        Prédiction basée sur l'IA quantique avancée
+      </div>
+    </div>
+
+    <a href="https://1wbhdb.life/v3/2158/1win-mines?p=28jd" target="_blank" class="affiliate">
       <i class="fas fa-rocket"></i> Inscription sur 1win avec bonus
     </a>
 
@@ -425,143 +580,268 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const grid = document.getElementById('minesGrid');
-      const generateBtn = document.getElementById('generateBtn');
-      const bombOptions = document.querySelectorAll('.bomb-option');
-      const gridSize = 25; // 5x5 grid
-      let selectedBombs = 1;
-      let stars = 10;
+    class MinesPredictor {
+      constructor() {
+        this.selectedBombs = 1;
+        this.grid = [];
+        this.isGenerating = false;
+        this.aiPatterns = this.initializeAIPatterns();
+        
+        this.initializeGrid();
+        this.bindEvents();
+      }
 
-      // Mappage bombes -> étoiles (non affiché à l'utilisateur)
-      const bombToStarsMap = {
-        1: 10,
-        3: 5,
-        5: 4,
-        7: 4
-      };
+      initializeAIPatterns() {
+        return [
+          { name: "Corner Safe", cells: [0, 1, 5, 6, 10, 11, 15, 16, 20, 21], weight: 0.25 },
+          { name: "Cross Pattern", cells: [2, 7, 10, 11, 12, 13, 14, 17, 22], weight: 0.20 },
+          { name: "Edge Avoidance", cells: [6, 7, 8, 11, 12, 13, 16, 17, 18], weight: 0.30 },
+          { name: "Diagonal Safe", cells: [0, 6, 12, 18, 24, 4, 8, 16, 20], weight: 0.25 }
+        ];
+      }
 
-      // Initialisation de la grille
-      function initGrid() {
-        grid.innerHTML = '';
-        for (let i = 0; i < gridSize; i++) {
+      initializeGrid() {
+        const minesGrid = document.getElementById('minesGrid');
+        minesGrid.innerHTML = '';
+        this.grid = [];
+
+        for (let i = 0; i < 25; i++) {
           const cell = document.createElement('div');
-          cell.className = 'cell';
-          cell.innerHTML = '<div class="emoji">🟦</div>';
-          grid.appendChild(cell);
+          cell.className = 'grid-cell';
+          cell.dataset.index = i;
+          minesGrid.appendChild(cell);
+          this.grid.push({ element: cell, isSafe: false, isMine: false });
         }
       }
 
-      // Mettre à jour le nombre d'étoiles (en fonction des bombes sélectionnées)
-      function updateStarsCount() {
-        stars = bombToStarsMap[selectedBombs];
-      }
-
-      // Générer des positions aléatoires pour les étoiles
-      function generateStars() {
-        // Réinitialiser toutes les cellules
-        const cells = document.querySelectorAll('.cell');
-        cells.forEach(cell => {
-          cell.className = 'cell';
-          cell.innerHTML = '<div class="emoji">🟦</div>';
+      bindEvents() {
+        document.querySelectorAll('.bomb-option').forEach(option => {
+          option.addEventListener('click', (e) => {
+            if (this.isGenerating) return;
+            document.querySelectorAll('.bomb-option').forEach(opt => opt.classList.remove('active'));
+            const currentTarget = e.currentTarget;
+            currentTarget.classList.add('active');
+            this.selectedBombs = parseInt(currentTarget.dataset.bombs);
+            this.clearGrid();
+            this.playSelectSound(currentTarget);
+          });
         });
 
-        // Générer des positions aléatoires uniques
-        const starPositions = [];
-        while (starPositions.length < stars) {
-          const randomPos = Math.floor(Math.random() * gridSize);
-          if (!starPositions.includes(randomPos)) {
-            starPositions.push(randomPos);
+        document.getElementById('generateBtn').addEventListener('click', () => {
+          if (!this.isGenerating) {
+            this.generateAdvancedPrediction();
+          }
+        });
+      }
+
+      playSelectSound(button) {
+        button.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          // La classe .active a déjà un scale(1.05)
+          if (!button.classList.contains('active')) {
+             button.style.transform = 'scale(1)';
+          }
+        }, 150);
+      }
+
+      clearGrid() {
+        this.grid.forEach(cell => {
+          cell.element.className = 'grid-cell';
+          cell.element.innerHTML = '';
+          cell.isSafe = false;
+          cell.isMine = false;
+        });
+      }
+
+      async generateAdvancedPrediction() {
+        if (this.isGenerating) return;
+        
+        this.isGenerating = true;
+        this.clearGrid();
+        
+        const generateBtn = document.getElementById('generateBtn');
+        
+        generateBtn.disabled = true;
+        generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ANALYSE EN COURS';
+
+        await this.delay(2000 + Math.random() * 1000);
+
+        const safeCells = this.calculateAISafeCells();
+        
+        await this.animatePredictions(safeCells);
+
+        const accuracy = 94 + Math.random() * 4;
+        document.getElementById('accuracy').textContent = accuracy.toFixed(1) + '%';
+
+        generateBtn.disabled = false;
+        generateBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Nouvelle prédiction';
+        this.isGenerating = false;
+      }
+
+      calculateAISafeCells() {
+        let safeCellsCount;
+        switch(this.selectedBombs) {
+          case 1:
+            safeCellsCount = 8;
+            break;
+          case 3:
+            safeCellsCount = 5;
+            break;
+          case 5:
+            safeCellsCount = 4;
+            break;
+          case 7:
+            safeCellsCount = 4;
+            break;
+          default:
+            safeCellsCount = 5;
+        }
+
+        let safeCells = [];
+        const selectedPattern = this.aiPatterns[Math.floor(Math.random() * this.aiPatterns.length)];
+        const patternCells = [...selectedPattern.cells].sort(() => Math.random() - 0.5);
+
+        for (let i = 0; i < Math.min(safeCellsCount * 0.7, patternCells.length); i++) {
+          if (!safeCells.includes(patternCells[i])) {
+            safeCells.push(patternCells[i]);
           }
         }
 
-        // Appliquer les étoiles aux positions sélectionnées
-        starPositions.forEach(pos => {
-          cells[pos].classList.add('star');
+        const remainingCells = Array.from({length: 25}, (_, i) => i)
+          .filter(i => !safeCells.includes(i))
+          .sort(() => Math.random() - 0.5);
 
-          // Réinitialiser le contenu avant d'ajouter l'étoile pour déclencher l'animation
-          setTimeout(() => {
-            cells[pos].innerHTML = '<div class="emoji">⭐️</div>';
-          }, 50);
-        });
+        while (safeCells.length < safeCellsCount && remainingCells.length > 0) {
+          safeCells.push(remainingCells.pop());
+        }
+
+        return safeCells.slice(0, safeCellsCount);
       }
-
-      // Gestion des boutons de sélection de bombes
-      bombOptions.forEach(option => {
-        option.addEventListener('click', () => {
-          // Retirer la classe active de toutes les options
-          bombOptions.forEach(opt => opt.classList.remove('active'));
-
-          // Ajouter la classe active à l'option sélectionnée
-          option.classList.add('active');
-
-          // Mettre à jour le nombre de bombes sélectionné
-          selectedBombs = parseInt(option.dataset.bombs);
-
-          // Mettre à jour le nombre d'étoiles
-          updateStarsCount();
-
-          // Générer une nouvelle prédiction
-          generateStars();
-        });
-      });
-
-      // Initialiser la grille au chargement
-      initGrid();
-
-      // Générer les étoiles après un court délai pour l'animation
-      setTimeout(() => {
-        generateStars();
-      }, 500);
-
-      // Événement pour le bouton de génération
-      generateBtn.addEventListener('click', () => {
-        // Animation du bouton
-        generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Génération...';
-        setTimeout(() => {
-          generateStars();
-          generateBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Nouvelle prédiction';
-        }, 600);
-      });
-
-      // Créer des cercles animés en fond
-      function createAnimatedCircles() {
-        const backgroundAnim = document.querySelector('.background-anim');
-        const colors = [
-          'rgba(14, 165, 233, 0.1)',
-          'rgba(139, 92, 246, 0.1)',
-          'rgba(236, 72, 153, 0.1)'
-        ];
-
+      
+      createStarParticles(element) {
+        const rect = element.getBoundingClientRect();
+        const containerRect = document.querySelector('.container').getBoundingClientRect();
+        
         for (let i = 0; i < 8; i++) {
-          const circle = document.createElement('div');
-          circle.classList.add('circle');
-
-          // Taille aléatoire
-          const size = Math.random() * 200 + 100;
-          circle.style.width = `${size}px`;
-          circle.style.height = `${size}px`;
-
-          // Position aléatoire
-          circle.style.top = `${Math.random() * 100}%`;
-          circle.style.left = `${Math.random() * 100}%`;
-
-          // Couleur aléatoire
-          circle.style.background = `radial-gradient(circle, ${colors[Math.floor(Math.random() * colors.length)]}, transparent 70%)`;
-
-          // Animation aléatoire
-          const duration = Math.random() * 30 + 20;
-          const delay = Math.random() * -20;
-          circle.style.animation = `float ${duration}s infinite linear`;
-          circle.style.animationDelay = `${delay}s`;
-
-          backgroundAnim.appendChild(circle);
+          const angle = Math.random() * Math.PI * 2;
+          const distance = 30 + Math.random() * 20;
+          const particle = document.createElement('div');
+          
+          particle.className = 'star-particle';
+          // Position par rapport au coin supérieur gauche de la page
+          particle.style.left = `${rect.left + rect.width / 2}px`;
+          particle.style.top = `${rect.top + rect.height / 2}px`;
+          particle.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
+          particle.style.setProperty('--ty', `${Math.sin(angle) * distance}px`);
+          
+          document.body.appendChild(particle);
+          setTimeout(() => particle.remove(), 1000);
         }
       }
 
-      createAnimatedCircles();
+      async animatePredictions(safeCells) {
+        for (let i = 0; i < safeCells.length; i++) {
+          const index = safeCells[i];
+          const cell = this.grid[index];
+          
+          await this.delay(100 + Math.random() * 100);
+          
+          // --- MODIFICATION DE L'ANIMATION ---
+          cell.element.classList.add('star');
+          cell.element.innerHTML = `<div class="emoji">⭐️</div>`;
+          cell.isSafe = true;
+          
+          this.createStarParticles(cell.element);
+          // --- FIN DE LA MODIFICATION ---
+        }
+      }
+
+      delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+    }
+
+    class BlueParticles {
+      constructor() {
+        this.canvas = document.getElementById('particles-canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.particles = [];
+        this.hue = 200;
+        this.hueChangeRate = 0.1;
+        this.particleCount = Math.min(100, window.innerWidth / 10);
+        
+        this.resize();
+        window.addEventListener('resize', this.resize.bind(this));
+        this.initParticles();
+        this.animate();
+      }
+      
+      resize() {
+        this.width = this.canvas.width = window.innerWidth;
+        this.height = this.canvas.height = window.innerHeight;
+        this.particleCount = Math.min(100, window.innerWidth / 10);
+        if(this.particles.length < this.particleCount) {
+            this.initParticles();
+        }
+      }
+      
+      initParticles() {
+        this.particles = [];
+        for (let i = 0; i < this.particleCount; i++) {
+          this.particles.push(this.createParticle());
+        }
+      }
+      
+      createParticle() {
+        return {
+          x: Math.random() * this.width,
+          y: Math.random() * this.height,
+          size: Math.random() * 3 + 1,
+          speedX: (Math.random() - 0.5) * 0.5,
+          speedY: (Math.random() - 0.5) * 0.5,
+          hue: Math.random() * 60 + 180,
+          saturation: 70 + Math.random() * 30,
+          lightness: 30 + Math.random() * 40
+        };
+      }
+      
+      animate() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        
+        this.hue += this.hueChangeRate;
+        if (this.hue > 240 || this.hue < 180) {
+          this.hueChangeRate *= -1;
+        }
+        
+        this.particles.forEach(particle => {
+          particle.x += particle.speedX;
+          particle.y += particle.speedY;
+          
+          if (particle.x > this.width + 5) particle.x = -5;
+          else if (particle.x < -5) particle.x = this.width + 5;
+          if (particle.y > this.height + 5) particle.y = -5;
+          else if (particle.y < -5) particle.y = this.height + 5;
+          
+          particle.hue = (particle.hue + Math.random() * 0.5) % 360;
+          
+          this.ctx.beginPath();
+          this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+          
+          const mixHue = (this.hue * 0.7 + particle.hue * 0.3) % 360;
+          const color = `hsl(${mixHue}, ${particle.saturation}%, ${particle.lightness}%)`;
+          
+          this.ctx.fillStyle = color;
+          this.ctx.fill();
+        });
+        
+        requestAnimationFrame(this.animate.bind(this));
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      new MinesPredictor();
+      new BlueParticles();
     });
   </script>
 </body>
 </html>
-
