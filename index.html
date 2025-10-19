@@ -304,19 +304,19 @@
 
     /* --- MODIFICATIONS DES ÉTOILES --- */
     .grid-cell.star {
-      /* Le fond reste simple pour faire ressortir l'étoile */
       background: linear-gradient(145deg, #3a3a5e, #2f2f4e);
     }
 
-    .grid-cell.star .emoji {
+    .grid-cell .star-svg {
+      width: 70%;
+      height: 70%;
+      filter: drop-shadow(0 0 10px var(--glow-yellow));
       animation: starAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      text-shadow: 0 0 15px var(--glow-yellow);
-      font-size: 2.5rem; /* Taille de l'émoji */
     }
 
     @keyframes starAppear {
-        0% { transform: scale(0) rotate(0deg); opacity: 0; }
-        70% { transform: scale(1.2) rotate(20deg); opacity: 1; }
+        0% { transform: scale(0) rotate(-90deg); opacity: 0; }
+        70% { transform: scale(1.2) rotate(10deg); opacity: 1; }
         100% { transform: scale(1) rotate(0deg); opacity: 1; }
     }
     /* --- FIN DES MODIFICATIONS --- */
@@ -746,9 +746,13 @@
           
           await this.delay(100 + Math.random() * 100);
           
-          // --- MODIFICATION DE L'ANIMATION ---
+          // --- MODIFICATION DE L'ANIMATION AVEC SVG ---
           cell.element.classList.add('star');
-          cell.element.innerHTML = `<div class="emoji">⭐️</div>`;
+          cell.element.innerHTML = `
+            <svg class="star-svg" viewBox="0 0 51 48" xmlns="http://www.w3.org/2000/svg">
+                <path fill="var(--star-yellow)" stroke="#1F1F2E" stroke-width="3" d="M25.5 0 L33.5 18 H51 L36 29.5 L42 48 L25.5 37.5 L9 48 L15 29.5 L0 18 H17.5 Z"/>
+            </svg>
+          `;
           cell.isSafe = true;
           
           this.createStarParticles(cell.element);
@@ -845,3 +849,4 @@
   </script>
 </body>
 </html>
+
